@@ -36,7 +36,8 @@ app.post('/user', async function (req, res) {
 })
 
 app.get('/user', async function (req, res) {
-    res.status(204).json("test");
+    console.log("test");
+    res.status(204).json("post");
 })
 
 app.listen(port,  () => {
