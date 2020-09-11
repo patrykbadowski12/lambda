@@ -35,7 +35,11 @@ app.post('/user', function (req, res) {
   .catch(err => response(null, response(err.statusCode, err)));
 })
 
+app.get('/user', function (req, res) {
+    console.log("test");
+})
+
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:3000`)
+  console.log(`Example app listening at port 3000`)
 })
 module.exports.handler = serverless(app);
