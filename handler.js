@@ -9,6 +9,8 @@ var uuid = require('uuid');
 const port = 3000;
 
 app.use(bodyParser.json({ strict: false }));
+AWS.config.update({ region: "eu-west-1" });
+
 
 const usersTable = "users";
 
