@@ -31,8 +31,10 @@ app.post('/user', async function (req, res) {
   db.put({
     TableName: usersTable,
     Item: post
+  }).promise().then(() => {
+    res.status(204).json(post);
   })
-  res.status(204).json(post);
+  .catch(err => res.status(204).json(err));
 })
 
 app.get('/user', async function (req, res) {
