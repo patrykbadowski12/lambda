@@ -11,16 +11,9 @@ const port = 3000;
 app.use(bodyParser.json({ strict: false }));
 AWS.config.update({ region: "eu-west-1" });
 
-
 const usersTable = "users";
 
-function response(statusCode, message) {
-  return {
-    statusCode: statusCode,
-    body: JSON.stringify(message)
-  };
-}
-app.post('/user', async function (req, res) {
+app.post('/user', function (req, res) {
   const { email, name, lastName } = req.body;
   console.log("inside post user")
   const post = {
@@ -31,12 +24,13 @@ app.post('/user', async function (req, res) {
       lastName: lastName
   };
   try {
-    console.log(post)
+    console.log(post);
+    console.log(usersTable);
     db.put({
       TableName: usersTable,
       Item: post
     });
-    console.log(post)
+    console.log(post);
     res.json({ post }).status(201);
   } catch (e) {
     console.log(e);
@@ -44,7 +38,7 @@ app.post('/user', async function (req, res) {
 }
 })
 
-app.get('/user', async function (req, res) {
+app.get('/user', function (req, res) {
     console.log("test");
     res.status(201).json( {message: 'post'});
 })
