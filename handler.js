@@ -29,6 +29,12 @@ app.post('/user', function (req, res) {
     db.put({
       TableName: usersTable,
       Item: post
+    }, function(err, data) {
+      if (err) {
+        console.log("Error", err);
+      } else {
+        console.log("Success", data);
+      }
     });
     console.log(post);
     res.json({ post }).status(201);
