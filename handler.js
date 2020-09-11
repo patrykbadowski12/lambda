@@ -32,18 +32,18 @@ app.post('/user', async function (req, res) {
     }
   };
   try {
-    await dynamoDbLib.call("put", post);
+    db.put(post);
     const {item} = post.Item;
     res.json({ item }).status(201);
   } catch (e) {
     console.log(e);
-    res.status(400).json({ error: 'Could not create category' });
+    res.status(400).json({ error: 'Could not create user' });
 }
 })
 
 app.get('/user', async function (req, res) {
     console.log("test");
-    res.status(204).json( {message: 'post'});
+    res.status(201).json( {message: 'post'});
 })
 
 app.listen(port,  () => {
