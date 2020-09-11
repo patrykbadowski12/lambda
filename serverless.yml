@@ -1,0 +1,70 @@
+service: serverless
+custom:
+  settings:
+    USERS_TABLE: users
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  environment: ${self:custom.settings}
+  region: eu-west-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: 
+        - dynamodb:DescribeTable
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.USERS_TABLE}"
+
+functions:
+  createUser:
+    handler: handler.createUser
+    events:
+    - http:
+        path: /user
+        method: post
+  getUsers:
+    handler: handler.getUsers
+    events:
+    - http:
+        path: /user/
+        method: get
+  getUser:
+    handler: handler.getUser
+    events:
+    - http:
+        path: /user/{email}
+        method: get
+  deleteUser:
+    handler: handler.deleteUser
+    events:
+    - http:
+        path: /user/{email}
+        method: get
+  updateUser:
+    handler: handler.updateUser
+    events:
+    - http:
+        path: /user/{email}
+        method: get
+
+resources:
+  Resources:
+    Userstable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+        - AttributeName: "email"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "email"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.settings.USERS_TABLE}
+
