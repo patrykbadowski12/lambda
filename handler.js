@@ -4,12 +4,12 @@ const bodyParser = require('body-parser');
 const AWS = require('aws-sdk');
 const express = require('express')
 const app = express();
+AWS.config.update({ region: "eu-west-1" });
 const db = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10'});
 var uuid = require('uuid');
 const port = 3000;
 
 app.use(bodyParser.json({ strict: false }));
-AWS.config.update({ region: "eu-west-1" });
 
 const usersTable = "users";
 
