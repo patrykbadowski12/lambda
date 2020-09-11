@@ -8,6 +8,7 @@ const db = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10'});
 var uuid = require('uuid');
 const port = 3000;
 
+app.use(bodyParser.json({ strict: false }));
 
 const usersTable = "users";
 
@@ -19,7 +20,7 @@ function response(statusCode, message) {
 }
 app.post('/user', async function (req, res) {
   const { email, name, lastName } = req.body;
-  console.log("inside post user");
+  console.log("inside post user")
   const post = {
     id: uuid.v1(),
     email: email,
@@ -27,12 +28,15 @@ app.post('/user', async function (req, res) {
     name: name,
     lastName: lastName
   };
-  res.status(200).json(post);
+  db.put({
+    TableName: usersTable,
+    Item: post
+  })
+  res.status(204).json(post);
 })
 
 app.get('/user', async function (req, res) {
-    console.log("test");
-    res.status(200).json("OK");
+    res.status(204).json("test");
 })
 
 app.listen(port,  () => {
