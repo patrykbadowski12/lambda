@@ -22,24 +22,28 @@ app.post('/user', async function (req, res) {
   const { email, name, lastName } = req.body;
   console.log("inside post user")
   const post = {
-    id: uuid.v1(),
-    email: email,
-    date: new Date().toISOString(),
-    name: name,
-    lastName: lastName
-  };
-  db.put({
     TableName: usersTable,
-    Item: post
-  }).promise().then(() => {
-    res.status(204).json(post);
-  })
-  .catch(err => res.status(204).json(err));
+    Item: {
+      id: uuid.v1(),
+      email: email,
+      date: new Date().toISOString(),
+      name: name,
+      lastName: lastName
+    }
+  };
+  try {
+    await dynamoDbLib.call("put", post);
+    const {item} = post.Item;
+    res.json({ item }).status(201);
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({ error: 'Could not create category' });
+}
 })
 
 app.get('/user', async function (req, res) {
     console.log("test");
-    res.status(204).json("post");
+    res.status(204).json( {message: 'post'});
 })
 
 app.listen(port,  () => {
