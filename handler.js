@@ -32,6 +32,7 @@ app.post('/user', async function (req, res) {
     }
   };
   try {
+    console.log(post);
     db.put(post);
     const {item} = post.Item;
     res.json({ item }).status(201);
