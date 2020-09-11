@@ -27,18 +27,12 @@ app.post('/user', async function (req, res) {
     name: name,
     lastName: lastName
   };
-  return db.put({
-    TableName: usersTable,
-    Item: post
-  }).promise().then(() => {
-    callback(null, response(201, post))
-  })
-  .catch(err => response(null, response(err.statusCode, err)));
+  res.status(200).json(post);
 })
 
 app.get('/user', async function (req, res) {
     console.log("test");
-    return "test";
+    res.status(200).json("OK");
 })
 
 app.listen(port,  () => {
