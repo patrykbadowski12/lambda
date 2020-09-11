@@ -22,22 +22,20 @@ app.post('/user', async function (req, res) {
   const { email, name, lastName } = req.body;
   console.log("inside post user")
   const post = {
-    TableName: usersTable,
-    Item: {
       id: uuid.v1(),
       email: email,
       date: new Date().toISOString(),
       name: name,
       lastName: lastName
-    }
   };
   try {
     console.log(post)
-    db.put(post);
-    const {item} = post.Item;
-    console.log('item:');
-    console.log(item);
-    res.json({ item }).status(201);
+    db.put({
+      TableName: usersTable,
+      Item: post
+    });
+    console.log(post)
+    res.json({ post }).status(201);
   } catch (e) {
     console.log(e);
     res.status(400).json({ error: 'Could not create user' });
