@@ -17,8 +17,9 @@ function response(statusCode, message) {
     body: JSON.stringify(message)
   };
 }
-app.post('/user', function (req, res) {
+app.post('/user', async function (req, res) {
   const { email, name, lastName } = req.body;
+  console.log("inside post user");
   const post = {
     id: uuid.v1(),
     email: email,
@@ -35,11 +36,12 @@ app.post('/user', function (req, res) {
   .catch(err => response(null, response(err.statusCode, err)));
 })
 
-app.get('/user', function (req, res) {
+app.get('/user', async function (req, res) {
     console.log("test");
+    return "test";
 })
 
-app.listen(port, () => {
+app.listen(port,  () => {
   console.log(`Example app listening at port 3000`)
 })
 module.exports.handler = serverless(app);
